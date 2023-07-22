@@ -7,7 +7,7 @@ export default function Splash({navigation}: {navigation: any}): React.JSX.Eleme
     useEffect(() => {
         // createChannels();
         setTimeout(() => {
-            navigation.replace('SignUp');
+            navigation.replace('SignIn');
         }, 2000);
     }, [navigation]);
 
@@ -24,7 +24,7 @@ export default function Splash({navigation}: {navigation: any}): React.JSX.Eleme
         <View className="flex-1 items-center justify-center bg-slate-400" >
             <Image
                 className="w-36 h-36 m-5 rounded-full"
-                source={require('../../assets/images/Badge_ITS.png')}
+                source={require('../../../assets/images/Badge_ITS.png')}
             />
             <Text
                 className="text-4xl font-serif text-center items-center"

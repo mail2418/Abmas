@@ -6,29 +6,21 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 // import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// import ToDo from './screens/ToDo';
-// import Done from './screens/Done';
-// import Task from './screens/App/Task';
-// import Camera from './screens/App/Camera';
-// import HomeTabs from './screens/App/Home';
-
-import SignUpScreen from './screens/Auth/SignUp';
-import SignInScreen from './screens/Auth/Login';
-import Splash from './screens/Splash';
+import Task from './screens/App/Task';
+import Camera from './screens/App/Camera';
+import HomeTabs from './screens/App/Home';
 
 import { DrawerContent } from './screens/Drawer/DrawerContent';
 import { AuthContext } from './components/context';
 
 //NavigationStack
 import AuthStackScreen from './navigation/AuthStack';
-import AppStackScreen from './navigation/AppStack';
 
 import { Provider } from 'react-redux';
 import { Store } from './redux/store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View } from 'react-native-animatable';
 import { ActivityIndicator } from 'react-native-paper';
-// import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 // const Tab = createBottomTabNavigator();
 
@@ -71,8 +63,6 @@ import { ActivityIndicator } from 'react-native-paper';
 
 const Drawer = createDrawerNavigator();
 function App() {
-  const RootStack = createStackNavigator();
-
   const loginReducer = (prevState:any, action:any) => {
 
     switch ( action.type ) {
@@ -166,19 +156,16 @@ function App() {
     <Provider store={Store}>
       <AuthContext.Provider value={authContext}>
         <NavigationContainer>
-            {/* { loginState.userToken !== null ? (
-              <>
-                <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
-                  <>
-                  </>
-                </Drawer.Navigator>
-                <AppStackScreen/>
-              </>
+            { loginState.userToken !== null ? (
+              <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
+                <Drawer.Screen name="HalamanUtama" component={HomeTabs} />
+                <Drawer.Screen name="Task" component={Task} />
+                <Drawer.Screen name="Camera" component={Camera} />
+              </Drawer.Navigator>
             )
           :
             <AuthStackScreen/>
-          } */}
-          <AuthStackScreen/>
+          }
         </NavigationContainer>
       </AuthContext.Provider>
     </Provider>

@@ -23,7 +23,7 @@ import { AuthContext } from '../../components/context';
 
 import Users from '../../model/users';
 
-const SignInScreen = ({navigation}) => {
+const SignInScreen = ({navigation}:{navigation:any}) => {
 
     const [data, setData] = React.useState({
         username: '',
@@ -225,7 +225,7 @@ const SignInScreen = ({navigation}) => {
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                        onPress={() => navigation.navigate('SignUpScreen')}
+                        onPress={() => navigation.navigate('SignUp')}
                         style={[styles.signIn, {
                             borderColor: '#009387',
                             borderWidth: 1,
