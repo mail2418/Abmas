@@ -1,0 +1,17 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/AbrilFatface-Regular.ttf",
+      "sha1": "270f83ffce77240393c6bca8f0018c1c94862608"
+    },
+    {
+      "path": "assets/fonts/IndieFlower-Regular.ttf",
+      "sha1": "43ffc60d2e2cbf0339578690623580ef40fe19cd"
+    },
+    {
+      "path": "assets/images/biogas.jpg",
+      "sha1": "a21cca58404250cca06c6b0cbeab307813b5d1c3"
+    }
+  ]
+}
