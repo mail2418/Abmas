@@ -28,6 +28,8 @@ import { Store } from './redux/store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View } from 'react-native-animatable';
 import { ActivityIndicator } from 'react-native-paper';
+
+import { createStore, combineReducers } from 'redux';
 // import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 // const Tab = createBottomTabNavigator();
@@ -72,10 +74,19 @@ import { ActivityIndicator } from 'react-native-paper';
 const Drawer = createDrawerNavigator();
 function App() {
   const RootStack = createStackNavigator();
+  const REGISTER_USER = 'REGISTER_USER';
+  const registerUser = (user) => ({
+    type: REGISTER_USER,
+    payload: user,
+  });
 
-  const loginReducer = (prevState:any, action:any) => {
+  const initialState = {
+    users: [], // Initialize the users array in the Redux store
+  };
 
-    switch ( action.type ) {
+  const loginReducer = (prevState: any, action: any) => {
+
+    switch (action.type) {
       case 'RETRIEVE_TOKEN':
         return {
           ...prevState,
@@ -96,15 +107,19 @@ function App() {
           userToken: null,
           isLoading: false,
         };
-      case 'REGISTER':
-        return {
-          ...prevState,
-          userName: action.id,
-          userToken: action.token,
-          isLoading: false,
-        };
+        case REGISTER_USER:
+          return {
+            ...state,
+            users: [...state.users, action.payload], // Add the new user to the users array in the Redux store
+          };
+        default:
+          return state;
     }
   };
+
+  const rootReducer = combineReducers({
+    auth: loginReducer,
+  });
 
   const initialLoginState = {
     isLoading: true,
@@ -114,7 +129,7 @@ function App() {
   const [loginState, dispatch] = React.useReducer(loginReducer, initialLoginState);
 
   const authContext = React.useMemo(() => ({
-    signIn: async(foundUser:any) => {
+    signIn: async (foundUser: any) => {
       const userToken = String(foundUser[0].userToken);
       const userName = foundUser[0].username;
       try {
@@ -124,7 +139,7 @@ function App() {
       }
       dispatch({ type: 'LOGIN', id: userName, token: userToken });
     },
-    signOut: async() => {
+    signOut: async () => {
       // setUserToken(null);
       // setIsLoading(false);
       try {
@@ -137,11 +152,17 @@ function App() {
     signUp: () => {
       // setUserToken('fgkj');
       // setIsLoading(false);
+      try {
+        AsyncStorage.setItem('userToken', 'fgkj');
+      } catch (e){
+        console.log(e);
+      }
+      dispatch({ type: 'REGISTER', token: 'fgkj' });
     },
   }), []);
 
   useEffect(() => {
-    setTimeout(async() => {
+    setTimeout(async () => {
       // setIsLoading(false);
       let userToken;
       userToken = null;
@@ -155,10 +176,14 @@ function App() {
     }, 1000);
   }, []);
 
-  if ( loginState.isLoading ) {
+  if (loginState.isLoading) {
     return (
-      <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-        <ActivityIndicator size="large"/>
+      <View style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <ActivityIndicator size="large" />
       </View>
     );
   }
@@ -166,7 +191,7 @@ function App() {
     <Provider store={Store}>
       <AuthContext.Provider value={authContext}>
         <NavigationContainer>
-            {/* { loginState.userToken !== null ? (
+          {/* { loginState.userToken !== null ? (
               <>
                 <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
                   <>
@@ -178,7 +203,7 @@ function App() {
           :
             <AuthStackScreen/>
           } */}
-          <AuthStackScreen/>
+          <AuthStackScreen />
         </NavigationContainer>
       </AuthContext.Provider>
     </Provider>

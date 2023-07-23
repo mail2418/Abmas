@@ -1,7 +1,9 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable comma-dangle */
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable prettier/prettier */
-export default Users = [
+
+const Users = [
     {
         id: 1,
         email: 'user1@email.com',
@@ -24,3 +26,5 @@ export default Users = [
         userToken: 'testtoken'
     },
 ];
+
+export default Users;
