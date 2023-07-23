@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import SignUpScreen from '../screens/Auth/SignUp';
 import SignInScreen from '../screens/Auth/Login';
-import Splash from '../screens/Splash';
+import Splash from '../screens/Auth/Splash';
 
 const RootStack = createStackNavigator();
 

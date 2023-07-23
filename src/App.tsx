@@ -6,31 +6,21 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 // import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// import ToDo from './screens/ToDo';
-// import Done from './screens/Done';
-// import Task from './screens/App/Task';
-// import Camera from './screens/App/Camera';
-// import HomeTabs from './screens/App/Home';
-
-import SignUpScreen from './screens/Auth/SignUp';
-import SignInScreen from './screens/Auth/Login';
-import Splash from './screens/Splash';
+import Task from './screens/App/Task';
+import Camera from './screens/App/Camera';
+import HomeTabs from './screens/App/Home';
 
 import { DrawerContent } from './screens/Drawer/DrawerContent';
 import { AuthContext } from './components/context';
 
 //NavigationStack
 import AuthStackScreen from './navigation/AuthStack';
-import AppStackScreen from './navigation/AppStack';
 
 import { Provider } from 'react-redux';
 import { Store } from './redux/store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View } from 'react-native-animatable';
 import { ActivityIndicator } from 'react-native-paper';
-
-import { createStore, combineReducers } from 'redux';
-// import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 // const Tab = createBottomTabNavigator();
 
@@ -73,18 +63,7 @@ import { createStore, combineReducers } from 'redux';
 
 const Drawer = createDrawerNavigator();
 function App() {
-  const RootStack = createStackNavigator();
-  const REGISTER_USER = 'REGISTER_USER';
-  const registerUser = (user) => ({
-    type: REGISTER_USER,
-    payload: user,
-  });
-
-  const initialState = {
-    users: [], // Initialize the users array in the Redux store
-  };
-
-  const loginReducer = (prevState: any, action: any) => {
+  const loginReducer = (prevState:any, action:any) => {
 
     switch (action.type) {
       case 'RETRIEVE_TOKEN':
@@ -107,7 +86,7 @@ function App() {
           userToken: null,
           isLoading: false,
         };
-        case REGISTER_USER:
+        case "REGISTER_USER":
           return {
             ...state,
             users: [...state.users, action.payload], // Add the new user to the users array in the Redux store
@@ -191,19 +170,16 @@ function App() {
     <Provider store={Store}>
       <AuthContext.Provider value={authContext}>
         <NavigationContainer>
-          {/* { loginState.userToken !== null ? (
-              <>
-                <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
-                  <>
-                  </>
-                </Drawer.Navigator>
-                <AppStackScreen/>
-              </>
+            { loginState.userToken !== null ? (
+              <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
+                <Drawer.Screen name="HalamanUtama" component={HomeTabs} />
+                <Drawer.Screen name="Task" component={Task} />
+                <Drawer.Screen name="Camera" component={Camera} />
+              </Drawer.Navigator>
             )
           :
             <AuthStackScreen/>
-          } */}
-          <AuthStackScreen />
+          }
         </NavigationContainer>
       </AuthContext.Provider>
     </Provider>
