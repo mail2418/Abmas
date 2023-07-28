@@ -8,7 +8,7 @@ import { RNCamera } from 'react-native-camera';
 import { useCamera } from 'react-native-camera-hooks';
 import CustomButton from '../../utils/CustomButton';
 import { useDispatch, useSelector } from 'react-redux';
-import { setTasks } from '../../redux/actions';
+import { setTasks } from '../../redux/actions/task';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Camera({ navigation , route } : {navigation: any, route:any}) {

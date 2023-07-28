@@ -5,7 +5,7 @@ import React from 'react';
 import {Text, TouchableOpacity, View, FlatList, Alert } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { useDispatch, useSelector } from 'react-redux';
-import { setTaskID, setTasks } from '../../redux/actions';
+import { setTaskID, setTasks } from '../../redux/actions/task';
 import GlobalStyle from '../../utils/GlobalStyle';
 
 export default function Done({navigation}: {navigation: any}) {

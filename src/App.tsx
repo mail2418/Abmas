@@ -1,11 +1,9 @@
 /* eslint-disable prettier/prettier */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Task from './screens/App/Task';
 import Camera from './screens/App/Camera';
 import HomeTabs from './screens/App/Home';
@@ -22,48 +20,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View } from 'react-native-animatable';
 import { ActivityIndicator } from 'react-native-paper';
 
-// const Tab = createBottomTabNavigator();
+import { combineReducers } from 'redux';
 
-// function HomeTabs() {
-//   return (
-//     <Tab.Navigator
-//       screenOptions={
-//         ({ route }) => ({
-//           // eslint-disable-next-line react/no-unstable-nested-components
-//           tabBarIcon: ({ focused, size, color }) => {
-//             let iconName;
-//             if (route.name === 'To-Do') {
-//               iconName = 'clipboard-list';
-//               size = focused ? 25 : 20;
-//             } else if (route.name === 'Done') {
-//               iconName = 'clipboard-check';
-//               size = focused ? 25 : 20;
-//             }
-//             return (
-//               <FontAwesome5
-//                 name={iconName}
-//                 size={size}
-//                 color={color}
-//               />
-//             );
-//           },
-//           tabBarActiveTintColor: '#0080ff',
-//           tabBarInactiveTintColor:'#777777',
-//           tabBarLabelStyle:{
-//             fontSize: 15, fontWeight: 'bold',
-//           },
-//         })
-//       }
-//     >
-//       <Tab.Screen name={'To-Do'} component={ToDo} />
-//       <Tab.Screen name={'Done'} component={Done} />
-//     </Tab.Navigator>
-//   );
-// }
+import Users from './model/users';
 
 const Drawer = createDrawerNavigator();
 function App() {
-  const loginReducer = (prevState:any, action:any) => {
+  const loginReducer = (prevState: any, action: any) => {
 
     switch (action.type) {
       case 'RETRIEVE_TOKEN':
@@ -86,15 +49,23 @@ function App() {
           userToken: null,
           isLoading: false,
         };
-        case "REGISTER_USER":
-          return {
-            ...state,
-            users: [...state.users, action.payload], // Add the new user to the users array in the Redux store
-          };
-        default:
-          return state;
+      case 'REGISTER':
+        return {
+          ...prevState,
+          users: [...prevState.users, action.payload], // Add the new user to the users array in the Redux store
+        };
+      default:
+        return prevState;
     }
   };
+
+  // Move the form state variables and data variable to the component scope
+  const [data, setData] = useState({
+    username: '',
+    password: '',
+    confirm_password: '',
+    // Your other data fields here...
+  });
 
   const rootReducer = combineReducers({
     auth: loginReducer,
@@ -119,8 +90,6 @@ function App() {
       dispatch({ type: 'LOGIN', id: userName, token: userToken });
     },
     signOut: async () => {
-      // setUserToken(null);
-      // setIsLoading(false);
       try {
         await AsyncStorage.removeItem('userToken');
       } catch (e) {
@@ -129,14 +98,15 @@ function App() {
       dispatch({ type: 'LOGOUT' });
     },
     signUp: () => {
-      // setUserToken('fgkj');
-      // setIsLoading(false);
-      try {
-        AsyncStorage.setItem('userToken', 'fgkj');
-      } catch (e){
-        console.log(e);
-      }
-      dispatch({ type: 'REGISTER', token: 'fgkj' });
+      // Assuming you have access to the `Users` array here or import it from the correct location
+      const newUser = {
+        id: Users.length + 1,
+        email: '', // Add other user properties as needed
+        username: data.username,
+        password: data.password,
+        userToken: '', // Initialize with an empty token
+      };
+      dispatch({ type: 'REGISTER', payload: newUser }); // Dispatch the REGISTER action with the newUser object as payload
     },
   }), []);
 
@@ -170,15 +140,15 @@ function App() {
     <Provider store={Store}>
       <AuthContext.Provider value={authContext}>
         <NavigationContainer>
-            { loginState.userToken !== null ? (
-              <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
-                <Drawer.Screen name="HalamanUtama" component={HomeTabs} />
-                <Drawer.Screen name="Task" component={Task} />
-                <Drawer.Screen name="Camera" component={Camera} />
-              </Drawer.Navigator>
-            )
-          :
-            <AuthStackScreen/>
+          {loginState.userToken !== null ? (
+            <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
+              <Drawer.Screen name="HalamanUtama" component={HomeTabs} />
+              <Drawer.Screen name="Task" component={Task} />
+              <Drawer.Screen name="Camera" component={Camera} />
+            </Drawer.Navigator>
+          )
+            :
+            <AuthStackScreen />
           }
         </NavigationContainer>
       </AuthContext.Provider>

@@ -5,7 +5,7 @@ import React, { useEffect, useCallback } from 'react';
 import {Text, TouchableOpacity, View, FlatList, Alert } from 'react-native';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { useDispatch, useSelector } from 'react-redux';
-import { setTaskID, setTasks } from '../../redux/actions';
+import { setTaskID, setTasks } from '../../redux/actions/task';
 import GlobalStyle from '../../utils/GlobalStyle';
 
 export default function ToDo({navigation}: {navigation: any}): React.JSX.Element {

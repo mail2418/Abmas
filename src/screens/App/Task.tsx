@@ -4,7 +4,7 @@ import { Alert, StyleSheet, Text, TouchableOpacity, View, Image, ScrollView } fr
 import { TextInput } from 'react-native-gesture-handler'
 import CustomButton from '../../utils/CustomButton';
 import { useDispatch, useSelector } from 'react-redux';
-import { setTasks } from '../../redux/actions';
+import { setTasks } from '../../redux/actions/task';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CheckBox from '@react-native-community/checkbox';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
